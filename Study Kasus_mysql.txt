@@ -1,0 +1,285 @@
+1. ========================================================================================================================
+
+Microsoft Windows [Version 10.0.19042.1415]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\Arifin>cd c:\xampp\mysql\bin
+
+c:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 8
+Server version: 10.4.22-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> create database studykasus;
+Query OK, 1 row affected (0.001 sec)
+
+2. ========================================================================================================================
+
+MariaDB [(none)]> use studykasus
+Database changed
+MariaDB [studykasus]> create table country (
+    -> country_id smallint(6) not null primary key auto_increment,
+    -> country varchar(50),
+    -> last_update timestamp
+    -> );
+Query OK, 0 rows affected (0.034 sec)
+
+MariaDB [studykasus]> desc country;
++-------------+-------------+------+-----+---------------------+-------------------------------+
+| Field       | Type        | Null | Key | Default             | Extra                         |
++-------------+-------------+------+-----+---------------------+-------------------------------+
+| country_id  | smallint(6) | NO   | PRI | NULL                | auto_increment                |
+| country     | varchar(50) | YES  |     | NULL                |                               |
+| last_update | timestamp   | NO   |     | current_timestamp() | on update current_timestamp() |
++-------------+-------------+------+-----+---------------------+-------------------------------+
+3 rows in set (0.019 sec)
+
+3. ========================================================================================================================
+
+MariaDB [studykasus]> create table city (
+    -> city_id smallint(5) unsigned not null primary key auto_increment,
+    -> city varchar(50) not null,
+    -> country_id smallint(5) unsigned not null,
+    -> last_update timestamp
+    -> );
+Query OK, 0 rows affected (0.031 sec)
+
+MariaDB [studykasus]> desc city;
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+| Field       | Type                 | Null | Key | Default             | Extra                         |
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+| city_id     | smallint(5) unsigned | NO   | PRI | NULL                | auto_increment                |
+| city        | varchar(50)          | NO   |     | NULL                |                               |
+| country_id  | smallint(5) unsigned | NO   |     | NULL                |                               |
+| last_update | timestamp            | NO   |     | current_timestamp() | on update current_timestamp() |
++-------------+----------------------+------+-----+---------------------+-------------------------------+
+4 rows in set (0.022 sec)
+
+4. ========================================================================================================================
+
+MariaDB [studykasus]> exit
+Bye
+
+c:\xampp\mysql\bin>mysql -uroot studykasus < E:\programer\niomic\dataBase\country.sql
+
+c:\xampp\mysql\bin>mysql -uroot studykasus < E:\programer\niomic\dataBase\city.sql
+
+5. ========================================================================================================================
+
+c:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 11
+Server version: 10.4.22-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use mysql;
+Database changed
+MariaDB [mysql]> create user 'Alan'@'localhost' identified by 'ujianmysql';
+Query OK, 0 rows affected (0.010 sec)
+
+MariaDB [mysql]> select user, host, password from user;
++------+-----------+-------------------------------------------+
+| User | Host      | Password                                  |
++------+-----------+-------------------------------------------+
+| root | localhost |                                           |
+| Andi | %         |                                           |
+| root | 127.0.0.1 |                                           |
+| root | ::1       |                                           |
+| pma  | localhost |                                           |
+| Budi | localhost | *3E5287812B7D1F947439AC45E73935377A3ADEF7 |
+| Alex | localhost |                                           |
+| Alan | localhost | *537C2443C831F1D1F5F20B9E7396538F6D558E10 |
++------+-----------+-------------------------------------------+
+8 rows in set (0.001 sec)
+
+MariaDB [mysql]> exit
+Bye
+
+c:\xampp\mysql\bin>mysql -u root
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 14
+Server version: 10.4.22-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> GRANT ALL ON studykasus.* TO Alan@localhost;
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [(none)]> exit
+Bye
+
+c:\xampp\mysql\bin>mysql -uAlan -pujianmysql
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 15
+Server version: 10.4.22-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use studykasus
+Database changed
+MariaDB [studykasus]> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| studykasus         |
+| test               |
++--------------------+
+3 rows in set (0.015 sec)
+
+MariaDB [studykasus]> show tables;
++----------------------+
+| Tables_in_studykasus |
++----------------------+
+| city                 |
+| country              |
++----------------------+
+2 rows in set (0.001 sec)
+
+6. ========================================================================================================================
+
+MariaDB [studykasus]> select country as `Country's Name`, last_update as `Last Modified`
+    -> from country order by country asc limit 30;
++---------------------------------------+---------------------+
+| Country's Name                        | Last Modified       |
++---------------------------------------+---------------------+
+| Afghanistan                           | 2006-02-14 21:44:00 |
+| Algeria                               | 2006-02-14 21:44:00 |
+| American Samoa                        | 2006-02-14 21:44:00 |
+| Angola                                | 2006-02-14 21:44:00 |
+| Anguilla                              | 2006-02-14 21:44:00 |
+| Argentina                             | 2006-02-14 21:44:00 |
+| Armenia                               | 2006-02-14 21:44:00 |
+| Australia                             | 2006-02-14 21:44:00 |
+| Austria                               | 2006-02-14 21:44:00 |
+| Azerbaijan                            | 2006-02-14 21:44:00 |
+| Bahrain                               | 2006-02-14 21:44:00 |
+| Bangladesh                            | 2006-02-14 21:44:00 |
+| Belarus                               | 2006-02-14 21:44:00 |
+| Bolivia                               | 2006-02-14 21:44:00 |
+| Brazil                                | 2006-02-14 21:44:00 |
+| Brunei                                | 2006-02-14 21:44:00 |
+| Bulgaria                              | 2006-02-14 21:44:00 |
+| Cambodia                              | 2006-02-14 21:44:00 |
+| Cameroon                              | 2006-02-14 21:44:00 |
+| Canada                                | 2006-02-14 21:44:00 |
+| Chad                                  | 2006-02-14 21:44:00 |
+| Chile                                 | 2006-02-14 21:44:00 |
+| China                                 | 2006-02-14 21:44:00 |
+| Colombia                              | 2006-02-14 21:44:00 |
+| Congo, The Democratic Republic of the | 2006-02-14 21:44:00 |
+| Czech Republic                        | 2006-02-14 21:44:00 |
+| Dominican Republic                    | 2006-02-14 21:44:00 |
+| Ecuador                               | 2006-02-14 21:44:00 |
+| Egypt                                 | 2006-02-14 21:44:00 |
+| Estonia                               | 2006-02-14 21:44:00 |
++---------------------------------------+---------------------+
+30 rows in set (0.001 sec)
+
+7. ========================================================================================================================
+
+MariaDB [studykasus]> select city as `City's Name`, last_update as `Last Modified`
+    -> from city order by city desc limit 20;
++--------------+---------------------+
+| City's Name  | Last Modified       |
++--------------+---------------------+
+| Ziguinchor   | 2006-02-14 21:45:25 |
+| Zhoushan     | 2006-02-14 21:45:25 |
+| Zhezqazghan  | 2006-02-14 21:45:25 |
+| Zeleznogorsk | 2006-02-14 21:45:25 |
+| Zaria        | 2006-02-14 21:45:25 |
+| Zapopan      | 2006-02-14 21:45:25 |
+| Zaoyang      | 2006-02-14 21:45:25 |
+| Zanzibar     | 2006-02-14 21:45:25 |
+| Zalantun     | 2006-02-14 21:45:25 |
+| Yuzhou       | 2006-02-14 21:45:25 |
+| Yuncheng     | 2006-02-14 21:45:25 |
+| York         | 2006-02-14 21:45:25 |
+| Yingkou      | 2006-02-14 21:45:25 |
+| Yinchuan     | 2006-02-14 21:45:25 |
+| Yerevan      | 2006-02-14 21:45:25 |
+| Yaound       | 2006-02-14 21:45:25 |
+| Yantai       | 2006-02-14 21:45:25 |
+| Yangor       | 2006-02-14 21:45:25 |
+| Yamuna Nagar | 2006-02-14 21:45:25 |
+| Xinxiang     | 2006-02-14 21:45:25 |
++--------------+---------------------+
+20 rows in set (0.001 sec)
+
+8. ========================================================================================================================
+
+MariaDB [studykasus]> create view country_city as
+    -> select country.country as `Country`, city.city as `Part of City`
+    -> from country inner join city
+    -> where country.country_id = city.country_id
+    -> order by city.city asc limit 10;
+Query OK, 0 rows affected (0.003 sec)
+
+MariaDB [studykasus]> select * from country_city;
++----------------------+--------------------+
+| Country              | Part of City       |
++----------------------+--------------------+
+| Spain                | A Corua (La Corua) |
+| Saudi Arabia         | Abha               |
+| United Arab Emirates | Abu Dhabi          |
+| Mexico               | Acua               |
+| Turkey               | Adana              |
+| Ethiopia             | Addis Abeba        |
+| Yemen                | Aden               |
+| India                | Adoni              |
+| India                | Ahmadnagar         |
+| Japan                | Akishima           |
++----------------------+--------------------+
+10 rows in set (0.002 sec)
+
+9. ========================================================================================================================
+
+MariaDB [studykasus]> exit
+Bye
+
+c:\xampp\mysql\bin>mysql -uroot
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 30
+Server version: 10.4.22-MariaDB mariadb.org binary distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MariaDB [(none)]> use studykasus
+Database changed
+MariaDB [studykasus]> select * from country_city;
++----------------------+--------------------+
+| Country              | Part of City       |
++----------------------+--------------------+
+| Spain                | A Corua (La Corua) |
+| Saudi Arabia         | Abha               |
+| United Arab Emirates | Abu Dhabi          |
+| Mexico               | Acua               |
+| Turkey               | Adana              |
+| Ethiopia             | Addis Abeba        |
+| Yemen                | Aden               |
+| India                | Adoni              |
+| India                | Ahmadnagar         |
+| Japan                | Akishima           |
++----------------------+--------------------+
+10 rows in set (0.001 sec)
+
+MariaDB [studykasus]> select * into outfile
+    -> 'E:\\programer\\niomic\\dataBase\\studykasus.txt'
+    -> fields terminated by ',' optionally enclosed by '"'
+    -> lines terminated by '\r\n'
+    -> from country_city;
+Query OK, 10 rows affected (0.002 sec)
+
